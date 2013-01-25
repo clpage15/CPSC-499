@@ -8,6 +8,6 @@ Status of Programs
 
 3.8.2 Where's Waldorf - STILL CODING
 
-9.6.2 Playing with Wheels - DONE [ON-TIME]
+9.6.2 Playing with Wheels - DONE AND ACCEPTED [ON-TIME]
 
 9.6.8 Hanoi Tower Troubles Again! - WORKING
