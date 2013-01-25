@@ -31,7 +31,7 @@ class myStuff implements Runnable{
     private Scanner scan = new Scanner(System.in);
     private char[][] letter;
     private String[] Words;
-    private ArrayList<Integer> location = new ArrayList<Integer>();
+    private ArrayList<Integer> location;
     private int height, width, numOfWords;
 
     public void run()
@@ -44,6 +44,8 @@ class myStuff implements Runnable{
 
         for(int i = 0; i < runs; i++)
         {
+            // Makes new location table
+            location = new ArrayList<Integer>();
 
             // Skips a blank line
             scan.nextLine();
@@ -75,6 +77,8 @@ class myStuff implements Runnable{
 
             // Prints out the locations
             printLocations();
+
+
 
         }
 
@@ -392,7 +396,7 @@ class myStuff implements Runnable{
 
         StringBuilder sb;
 
-        for(int i = 0; i < numOfWords; i++)
+        for(int i = 0; i < location.size()/2; i++)
         {
             sb = new StringBuilder();
 
