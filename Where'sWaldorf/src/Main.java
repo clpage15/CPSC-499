@@ -32,7 +32,7 @@ class myStuff implements Runnable{
     private char[][] letter;
     private String[] Words;
     private ArrayList<Integer> location;
-    private int height, width, numOfWords;
+    private int height, width, numOfWords, runs, runCount;
 
     public void run()
     {
@@ -40,9 +40,9 @@ class myStuff implements Runnable{
         // Take in number for program loop count
         Scanner findInt = new Scanner(scan.nextLine());
 
-        int runs = findInt.nextInt();
+        runs = findInt.nextInt();
 
-        for(int i = 0; i < runs; i++)
+        for(runCount = 0; runCount < runs; runCount++)
         {
             // Makes new location table
             location = new ArrayList<Integer>();
@@ -127,34 +127,34 @@ class myStuff implements Runnable{
         for(String Word : Words)
         {
 
-             for(int h = 0; h < height; h++)
-             {
+            for(int h = 0; h < height; h++)
+            {
 
-                 for(int w = 0; w < width; w++)
-                 {
+                for(int w = 0; w < width; w++)
+                {
 
-                     if(Word.charAt(0) == letter[h][w])
-                     {
+                    if(Word.charAt(0) == letter[h][w])
+                    {
 
-                         found = findNextLetters(Word, 1, h, w);
+                        found = findNextLetters(Word, 1, h, w);
 
-                     }
-                     if(found)
-                     {
+                    }
+                    if(found)
+                    {
 
-                         location.add(h+1);
-                         location.add(w+1);
+                        location.add(h+1);
+                        location.add(w+1);
 
-                         //System.out.println(h+1 + " " + w+1);
+                        //System.out.println(h+1 + " " + w+1);
 
-                         break;
+                        break;
 
-                     }
+                    }
 
-                 }
-                 if(found) break;
+                }
+                if(found) break;
 
-             }
+            }
 
             found = false;
 
@@ -166,229 +166,212 @@ class myStuff implements Runnable{
     public boolean findNextLetters(String Word, int nextCharSpot, int h, int w)
     {
 
+        boolean test = false;
+
         // Found the word
         if(nextCharSpot == Word.length())  return true;
 
-        // At Top left corner
-        else if(h == 0 && w == 0)
-        {
-
-            if(Word.charAt(nextCharSpot) == letter[h+1][w])
-            {
-                return findNextLetters(Word, nextCharSpot + 1, h+1, w);
-            }
-            else if(Word.charAt(nextCharSpot) == letter[h][w+1])
-            {
-                return findNextLetters(Word, nextCharSpot + 1, h, w+1);
-            }
-            else if(Word.charAt(nextCharSpot) == letter[h+1][w+1])
-            {
-                return findNextLetters(Word, nextCharSpot + 1, h+1, w+1);
-            }
-            else return false;
-
-        }
-
-        // At Top Right corner
-        else if(h == 0 && w == (width - 1))
-        {
-
-            if(Word.charAt(nextCharSpot) == letter[h+1][w])
-            {
-                return findNextLetters(Word, nextCharSpot + 1, h+1, w);
-            }
-            else if(Word.charAt(nextCharSpot) == letter[h][w-1])
-            {
-                return findNextLetters(Word, nextCharSpot + 1, h, w-1);
-            }
-            else if(Word.charAt(nextCharSpot) == letter[h+1][w-1])
-            {
-                return findNextLetters(Word, nextCharSpot + 1, h+1, w-1);
-            }
-            else return false;
-
-        }
-
-        // At Bottom Left corner
-        else if(h == (height - 1) && w == 0)
-        {
-
-            if(Word.charAt(nextCharSpot) == letter[h-1][w])
-            {
-                return findNextLetters(Word, nextCharSpot + 1, h-1, w);
-            }
-            else if(Word.charAt(nextCharSpot) == letter[h][w+1])
-            {
-                return findNextLetters(Word, nextCharSpot + 1, h, w+1);
-            }
-            else if(Word.charAt(nextCharSpot) == letter[h-1][w+1])
-            {
-                return findNextLetters(Word, nextCharSpot + 1, h-1, w+1);
-            }
-            else return false;
-
-        }
-
-        // At Bottom Right corner
-        else if(h == (height - 1) && w == (width - 1))
-        {
-
-            if(Word.charAt(nextCharSpot) == letter[h-1][w])
-            {
-                return findNextLetters(Word, nextCharSpot + 1, h-1, w);
-            }
-            else if(Word.charAt(nextCharSpot) == letter[h][w-1])
-            {
-                return findNextLetters(Word, nextCharSpot + 1, h, w-1);
-            }
-            else if(Word.charAt(nextCharSpot) == letter[h-1][w-1])
-            {
-                return findNextLetters(Word, nextCharSpot + 1, h-1, w-1);
-            }
-            else return false;
-
-        }
-
-        // Top edge
-        else if(h == 0)
-        {
-
-            if(Word.charAt(nextCharSpot) == letter[h][w-1])
-            {
-                return findNextLetters(Word, nextCharSpot + 1, h, w-1);
-            }
-            else if(Word.charAt(nextCharSpot) == letter[h][w+1])
-            {
-                return findNextLetters(Word, nextCharSpot + 1, h, w+1);
-            }else if(Word.charAt(nextCharSpot) == letter[h+1][w])
-            {
-                return findNextLetters(Word, nextCharSpot + 1, h+1, w);
-            }else if(Word.charAt(nextCharSpot) == letter[h+1][w-1])
-            {
-                return findNextLetters(Word, nextCharSpot + 1, h+1, w-1);
-            }else if(Word.charAt(nextCharSpot) == letter[h+1][w+1])
-            {
-                return findNextLetters(Word, nextCharSpot + 1, h+1, w+1);
-            }
-            else return false;
-
-        }
-
-        // Left edge
-        else if(w == 0)
-        {
-
-            if(Word.charAt(nextCharSpot) == letter[h-1][w])
-            {
-                return findNextLetters(Word, nextCharSpot + 1, h-1, w);
-            }
-            else if(Word.charAt(nextCharSpot) == letter[h+1][w])
-            {
-                return findNextLetters(Word, nextCharSpot + 1, h+1, w);
-            }else if(Word.charAt(nextCharSpot) == letter[h-1][w+1])
-            {
-                return findNextLetters(Word, nextCharSpot + 1, h-1, w+1);
-            }else if(Word.charAt(nextCharSpot) == letter[h][w+1])
-            {
-                return findNextLetters(Word, nextCharSpot + 1, h, w+1);
-            }else if(Word.charAt(nextCharSpot) == letter[h+1][w+1])
-            {
-                return findNextLetters(Word, nextCharSpot + 1, h+1, w+1);
-            }
-            else return false;
-
-        }
-
-        // Right edge
-        else if(w == (width - 1))
-        {
-
-            if(Word.charAt(nextCharSpot) == letter[h-1][w])
-            {
-                return findNextLetters(Word, nextCharSpot + 1, h-1, w);
-            }
-            else if(Word.charAt(nextCharSpot) == letter[h+1][w])
-            {
-                return findNextLetters(Word, nextCharSpot + 1, h+1, w);
-            }else if(Word.charAt(nextCharSpot) == letter[h-1][w-1])
-            {
-                return findNextLetters(Word, nextCharSpot + 1, h-1, w-1);
-            }else if(Word.charAt(nextCharSpot) == letter[h][w-1])
-            {
-                return findNextLetters(Word, nextCharSpot + 1, h, w-1);
-            }else if(Word.charAt(nextCharSpot) == letter[h+1][w-1])
-            {
-                return findNextLetters(Word, nextCharSpot + 1, h+1, w-1);
-            }
-            else return false;
-
-        }
-
-        // Bottom edge
-        else if(h == (height - 1))
-        {
-
-            if(Word.charAt(nextCharSpot) == letter[h][w-1])
-            {
-                return findNextLetters(Word, nextCharSpot + 1, h, w-1);
-            }
-            else if(Word.charAt(nextCharSpot) == letter[h][w+1])
-            {
-                return findNextLetters(Word, nextCharSpot + 1, h, w+1);
-            }else if(Word.charAt(nextCharSpot) == letter[h-1][w])
-            {
-                return findNextLetters(Word, nextCharSpot + 1, h-1, w);
-            }else if(Word.charAt(nextCharSpot) == letter[h-1][w-1])
-            {
-                return findNextLetters(Word, nextCharSpot + 1, h-1, w-1);
-            }else if(Word.charAt(nextCharSpot) == letter[h-1][w+1])
-            {
-                return findNextLetters(Word, nextCharSpot + 1, h-1, w+1);
-            }
-            else return false;
-
-        }
-
-        // In the middle somewhere
         else
         {
 
-            if(Word.charAt(nextCharSpot) == letter[h+1][w])
+            if(test == false)
             {
-                return findNextLetters(Word, nextCharSpot + 1, h+1, w);
+
+                test = findUp(Word, nextCharSpot, h, w);
+
             }
-            else if(Word.charAt(nextCharSpot) == letter[h+1][w+1])
+
+            if(test == false)
             {
-                return findNextLetters(Word, nextCharSpot + 1, h+1, w+1);
+
+                test = findRightUp(Word, nextCharSpot, h, w);
+
             }
-            else if(Word.charAt(nextCharSpot) == letter[h+1][w-1])
+
+            if(test == false)
             {
-                return findNextLetters(Word, nextCharSpot + 1, h+1, w-1);
+
+                test = findRight(Word, nextCharSpot, h, w);
+
             }
-            else if(Word.charAt(nextCharSpot) == letter[h][w+1])
+
+            if(test == false)
             {
-                return findNextLetters(Word, nextCharSpot + 1, h, w+1);
+
+                test = findRightDown(Word, nextCharSpot, h, w);
+
             }
-            else if(Word.charAt(nextCharSpot) == letter[h][w-1])
+
+            if(test == false)
             {
-                return findNextLetters(Word, nextCharSpot + 1, h, w-1);
+
+                test = findDown(Word, nextCharSpot, h, w);
+
             }
-            else if(Word.charAt(nextCharSpot) == letter[h-1][w+1])
+
+            if(test == false)
             {
-                return findNextLetters(Word, nextCharSpot + 1, h, w+1);
+
+                test = findLeftDown(Word, nextCharSpot, h, w);
+
             }
-            else if(Word.charAt(nextCharSpot) == letter[h-1][w])
+
+            if(test == false)
             {
-                return findNextLetters(Word, nextCharSpot + 1, h-1, w);
+
+                test = findLeft(Word, nextCharSpot, h, w);
+
             }
-            else if(Word.charAt(nextCharSpot) == letter[h-1][w-1])
+
+            if(test == false)
             {
-                return findNextLetters(Word, nextCharSpot + 1, h-1, w-1);
+
+                test = findLeftUp(Word, nextCharSpot, h, w);
+
             }
-            else return false;
+
+            return test;
 
         }
 
+
+
+    }
+
+    public boolean findLeft(String Word, int nextCharSpot, int h, int w)
+    {
+        // Found the word
+        if(nextCharSpot == Word.length())  return true;
+
+            // Out of bounds
+        else if(w-1 < 0) return false;
+
+            // Check left
+        else if(Word.charAt(nextCharSpot) == letter[h][w-1])
+        {
+            return findLeft(Word, nextCharSpot + 1, h, w-1);
+        }
+
+        else return false;
+    }
+
+    public boolean findLeftUp(String Word, int nextCharSpot, int h, int w)
+    {
+        // Found the word
+        if(nextCharSpot == Word.length())  return true;
+
+            // Out of range
+        else if(w-1 < 0 || h-1 < 0) return false;
+
+            // Check leftup
+        else if(Word.charAt(nextCharSpot) == letter[h-1][w-1])
+        {
+            return findLeftUp(Word, nextCharSpot + 1, h-1, w-1);
+        }
+
+        else return false;
+    }
+
+    public boolean findUp(String Word, int nextCharSpot, int h, int w)
+    {
+        // Found the word
+        if(nextCharSpot == Word.length())  return true;
+
+            // Out of range
+        else if(h-1 < 0) return false;
+
+            // Check up
+        else if(Word.charAt(nextCharSpot) == letter[h-1][w])
+        {
+            return findUp(Word, nextCharSpot + 1, h-1, w);
+        }
+
+        else return false;
+    }
+
+    public boolean findRightUp(String Word, int nextCharSpot, int h, int w)
+    {
+        // Found the word
+        if(nextCharSpot == Word.length())  return true;
+
+            // Out of range
+        else if(h-1 < 0 || w+1 >= width) return false;
+
+            // Check Rightup
+        else if(Word.charAt(nextCharSpot) == letter[h-1][w+1])
+        {
+            return findRightUp(Word, nextCharSpot + 1, h-1, w+1);
+        }
+
+        else return false;
+    }
+
+    public boolean findRight(String Word, int nextCharSpot, int h, int w)
+    {
+        // Found the word
+        if(nextCharSpot == Word.length())  return true;
+
+            // Out of range
+        else if(w+1 == width) return false;
+
+            // Check right
+        else if(Word.charAt(nextCharSpot) == letter[h][w+1])
+        {
+            return findRight(Word, nextCharSpot + 1, h, w+1);
+        }
+
+        else return false;
+    }
+
+    public boolean findRightDown(String Word, int nextCharSpot, int h, int w)
+    {
+        // Found the word
+        if(nextCharSpot == Word.length())  return true;
+
+            // Out of range
+        else if(h+1 >= height || w+1 >= width) return false;
+
+            // Check rightdown
+        else if(Word.charAt(nextCharSpot) == letter[h+1][w+1])
+        {
+            return findRightDown(Word, nextCharSpot + 1, h+1, w+1);
+        }
+
+        else return false;
+    }
+
+    public boolean findDown(String Word, int nextCharSpot, int h, int w)
+    {
+        // Found the word
+        if(nextCharSpot == Word.length())  return true;
+
+            // Out of range
+        else if(h+1 >= height) return false;
+
+            // Check down
+        else if(Word.charAt(nextCharSpot) == letter[h+1][w])
+        {
+            return findDown(Word, nextCharSpot + 1, h+1, w);
+        }
+
+        else return false;
+    }
+
+    public boolean findLeftDown(String Word, int nextCharSpot, int h, int w)
+    {
+        // Found the word
+        if(nextCharSpot == Word.length())  return true;
+
+            // Out of range
+        else if(h+1 >= height || w-1 < 0) return false;
+
+            // Check leftdown
+        else if(Word.charAt(nextCharSpot) == letter[h+1][w-1])
+        {
+            return findLeftDown(Word, nextCharSpot + 1, h+1, w-1);
+        }
+
+        else return false;
     }
 
     public void printLocations()
@@ -408,5 +391,11 @@ class myStuff implements Runnable{
 
         }
 
+        if(runCount + 1 < runs)
+        {
+            System.out.println();
+        }
+
     }
 }
+
