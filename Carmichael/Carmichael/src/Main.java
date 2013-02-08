@@ -76,7 +76,7 @@ class myStuff implements Runnable {
 
             temp = Math.pow(a,num);
 
-            if(( temp ) != a % num)
+            if(( temp % num) != a)
             {
                 pass = false;
                 break;
@@ -86,7 +86,7 @@ class myStuff implements Runnable {
 
         //gotPerfectSquare = gotPerfectSquare(num);
 
-        prime = isPrime(num);
+        //prime = isPrime(num);
 
         if(pass )
         {
