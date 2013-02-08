@@ -11,8 +11,9 @@
  *  java program model for www.programming-challenges.com
  */
 
-import java.math.BigInteger;
 import java.util.Scanner;
+import java.util.List;
+import java.util.ArrayList;
 
 class Main implements Runnable {
 
@@ -30,6 +31,8 @@ class Main implements Runnable {
 class myStuff implements Runnable {
 
     private StringBuilder output = new StringBuilder();
+    private List<Integer> primes = new ArrayList<Integer>();
+    private List<Integer> carmichael = new ArrayList<Integer>();
 
     public void run() {
 
@@ -37,6 +40,7 @@ class myStuff implements Runnable {
         Scanner lineReader;
         int number;
 
+        genPrimes(65000);
 
         // Take in first line to be tested
         lineReader = new Scanner(scan.nextLine());
@@ -47,9 +51,15 @@ class myStuff implements Runnable {
         // Does the main program as long as the next number is not 0
         while(number != 0)
         {
-
-            // Find If number is Carmichael
-            findCarmichael(number);
+            //do work here
+            if(isCarmicheal(number))
+            {
+                 output.append("The number " + number + " is a Carmichael number.");
+            }
+            else
+            {
+                output.append(number + " is normal.");
+            }
 
             // Take in next line to be tested
             lineReader = new Scanner(scan.nextLine());
@@ -65,100 +75,61 @@ class myStuff implements Runnable {
         System.out.print(output.toString());
     }
 
-    private void findCarmichael(int num)
+    //Generate all the prime numbers between 0 and n
+    private void genPrimes(int n)
     {
-        // This tells us whether it passed the loop test or breaks out with a false
-        boolean pass = true;
-        boolean prime, gotPerfectSquare;
+        boolean[] compositeNum = new boolean[n];
 
-        long temp;
-
-        for( int a = 2; a <= (num - 1); a++)
+        for (int i = 2; i < compositeNum.length; ++i)
         {
-
-            temp = (long)Math.pow(a, num);
-
-            if(( mod_bld(temp,num)) != a)
+            if (!compositeNum[i])
             {
-                pass = false;
-                break;
+                primes.add(i);
+
+                for (int j = i; j < compositeNum.length; j += i)
+                {
+                    compositeNum[j] = true;
+                }
             }
-
         }
-
-        //gotPerfectSquare = gotPerfectSquare(num);
-
-        //prime = isPrime(num);
-
-        if(pass )
-        {
-            output.append("num " + num + " is a Prime");
-        }
-        else
-            output.append("num " + num + " is normal");
-
     }
 
-    private boolean isPrime(int num)
+    private boolean isCarmicheal(int number)
     {
+       if(primes.contains(number))
+       {
+           return false;
+       }
 
-        if(num <= 1)
-            return false;
-        if(num == 2)
-            return true;
-        if(num % 2 == 0)
-            return false;
+       return fermatTest(number);
+    }
 
-        int sRoot = (int)Math.sqrt(num * 1.0);
+    private boolean fermatTest(int testPrimeNancy)
+    {
+        int randomNumberAlpha;
 
-        for(int i = 3; i < sRoot; i+=2)
+        for(randomNumberAlpha = 2; randomNumberAlpha < testPrimeNancy; randomNumberAlpha++)
         {
-            if(num % i == 0)
-                return  false;
+            if(squareAndMultiply(randomNumberAlpha,testPrimeNancy) != randomNumberAlpha)
+            {
+                return false;
+            }
         }
 
         return true;
-
     }
 
-    private boolean gotPerfectSquare(int num)
+    private int squareAndMultiply(int randomNumberAlpha, int testPrimeNancy)
     {
+        int result = randomNumberAlpha;
 
-        for(int i = 2; i < num; i++)
+        for(int i = 1; i < testPrimeNancy; i++)
         {
-
-            if(num % i == 0)
-            {
-
-                if(Math.sqrt(i) * Math.sqrt(i) == i)
-                    return true;
-
-            }
-
+            result *= randomNumberAlpha;
+            result %= testPrimeNancy;
         }
 
-        return  false;
-
-    }
-
-    private int mod_bld(long x, long y)
-    {
-
-        int remainder;
-        double temp;
-
-
-        temp = x / y;
-
-        temp = Math.floor(temp);
-
-        temp = temp * y;
-
-        remainder = (int)(x - temp);
-
-
-
-        return remainder;
+        return result;
 
     }
 }
