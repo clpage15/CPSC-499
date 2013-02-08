@@ -11,6 +11,7 @@
  *  java program model for www.programming-challenges.com
  */
 
+import java.math.BigInteger;
 import java.util.Scanner;
 
 class Main implements Runnable {
@@ -69,14 +70,15 @@ class myStuff implements Runnable {
         // This tells us whether it passed the loop test or breaks out with a false
         boolean pass = true;
         boolean prime, gotPerfectSquare;
-        double temp;
+
+        long temp;
 
         for( int a = 2; a <= (num - 1); a++)
         {
 
-            temp = Math.pow(a,num);
+            temp = (long)Math.pow(a, num);
 
-            if(( temp % num) != a)
+            if(( mod_bld(temp,num)) != a)
             {
                 pass = false;
                 break;
@@ -136,6 +138,27 @@ class myStuff implements Runnable {
         }
 
         return  false;
+
+    }
+
+    private int mod_bld(long x, long y)
+    {
+
+        int remainder;
+        double temp;
+
+
+        temp = x / y;
+
+        temp = Math.floor(temp);
+
+        temp = temp * y;
+
+        remainder = (int)(x - temp);
+
+
+
+        return remainder;
 
     }
 }
