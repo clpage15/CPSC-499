@@ -1,0 +1,187 @@
+/**
+ * Created with IntelliJ IDEA.
+ * User: curtis
+ * Date: 2013-02-11
+ * Time: 2:32 PM
+ * To change this template use File | Settings | File Templates.
+ */
+
+/*
+ * Main.java
+ *  java program model for www.programming-challenges.com
+ */
+
+import java.util.Arrays;
+import java.util.Scanner;
+
+class Main implements Runnable {
+
+    public static void main(String args[])  // entry point from OS
+    {
+        Main myWork = new Main();  // Construct the bootloader
+        myWork.run();            // execute
+    }
+
+    public void run() {
+        new myStuff().run();
+    }
+}
+
+class myStuff implements Runnable {
+
+    private StringBuilder output = new StringBuilder();
+    private Scanner scan = new Scanner(System.in);
+
+    public void run() {
+
+
+        Scanner lineReader;
+        int number;
+
+
+        // Take in first line to be tested
+        lineReader = new Scanner(scan.nextLine());
+
+        // Gets integer from first line
+        number = lineReader.nextInt();
+
+        // Does the main program as long as the next number is not 0
+        while(number != 0)
+        {
+
+            // Find If number is Carmichael
+            findRepackaging(number);
+
+            // Take in next line to be tested
+            lineReader = new Scanner(scan.nextLine());
+
+            // Gets integer from next line
+            number = lineReader.nextInt();
+
+            //if(number != 0)
+                output.append("\n");
+
+        }
+
+        System.out.print(output.toString());
+    }
+
+    public void findRepackaging(int num)
+    {
+
+        // Array storing the different types of packages
+        int[][] packages = new int[num][3];
+        double [] angles = new double[num];
+        boolean answer = true;
+
+        // Scanner used to read in the packages
+        Scanner lineScan;
+
+
+        // Inputs the different types of packages
+        for(int i = 0; i < num; i++)
+        {
+
+            lineScan = new Scanner(scan.nextLine());
+
+            packages[i][0] = lineScan.nextInt();
+            packages[i][1] = lineScan.nextInt();
+            packages[i][2] = lineScan.nextInt();
+
+        }
+
+        // Inputs the angles from the coloum 1-0 and 2-0 and calculating the arctan of the answer
+        for(int i = 0; i < num; i++)
+        {
+
+            double temp, x, y;
+
+            // Both X and Y are negative
+            if((packages[i][2] - packages[i][0]) < 0 && (packages[i][1] - packages[i][0]) < 0)
+            {
+
+                x = (packages[i][1] - packages[i][0]);
+                y = (packages[i][2] - packages[i][0]);
+
+                temp = Math.toDegrees(Math.atan(-y / -x)) + 180;
+
+            }
+            // Y is negative
+            else if((packages[i][2] - packages[i][0]) < 0)
+            {
+
+                x = (packages[i][1] - packages[i][0]);
+                y = (packages[i][2] - packages[i][0]);
+
+                temp = Math.toDegrees(Math.atan(x / -y)) + 270;
+
+            }
+            // X is negative
+            else if((packages[i][1] - packages[i][0]) < 0)
+            {
+
+                x = (packages[i][1] - packages[i][0]);
+                y = (packages[i][2] - packages[i][0]);
+
+                temp = Math.toDegrees(Math.atan(-x / y)) + 90;
+
+            }
+            //Both are positive
+            else
+            {
+
+                x = (packages[i][1] - packages[i][0]);
+                y = (packages[i][2] - packages[i][0]);
+
+                temp = Math.toDegrees(Math.atan(y / x));
+
+            }
+
+            angles[i] = temp;
+
+        }
+
+        // Sort the angles list
+        Arrays.sort(angles);
+
+        // Check to is if gap between numbers is not over 180
+        for(int i = 0; i < angles.length; i++)
+        {
+
+            // Check to see if it is not the last one and needs rap around
+            if(i != (angles.length - 1))
+            {
+
+                // Checks to see if difference is over 180
+                if((angles[i + 1] - angles[i]) > 180)
+                {
+
+                    answer = false;
+                    break;
+
+                }
+
+            }
+            else
+            {
+
+                // Checks to see if difference is over 180
+                if(((angles[0] + 360) - angles[i]) > 180)
+                {
+
+                    answer = false;
+                    break;
+
+                }
+
+            }
+
+        }
+
+        if (answer) output.append("Yes");
+        else output.append("No");
+
+    }
+
+}
+
